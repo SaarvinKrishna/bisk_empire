@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BISK EMPIRE ENTERPRISE — Phones, Tablets & Repairs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14161A;
+    --ink-2:#1C1F26;
+    --paper:#EDEAE3;
+    --paper-dim:#A9A6A0;
+    --signal:#5ED9A0;
+    --amber:#FFB648;
+    --line: rgba(237,234,227,0.14);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Space Grotesk', sans-serif;
+    overflow-x:hidden;
+  }
+
+  .mono{font-family:'JetBrains Mono', monospace;}
+
+  a{color:inherit;text-decoration:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- LAYOUT SHELL ---------- */
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(20,22,26,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{display:flex; align-items:center; justify-content:space-between; padding:18px 28px;}
+  .logo{display:flex; align-items:center; gap:10px; font-weight:700; font-size:17px; letter-spacing:0.02em;}
+  .logo .dot{width:9px; height:9px; border-radius:50%; background:var(--signal); box-shadow:0 0 10px var(--signal); flex-shrink:0;}
+  .logo .tag{font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--paper-dim); letter-spacing:0.12em; margin-left:8px; border:1px solid var(--line); padding:3px 7px; border-radius:3px;}
+  .navlinks{display:flex; gap:32px; font-size:14px; color:var(--paper-dim);}
+  .navlinks a{transition:color .2s;}
+  .navlinks a:hover, .navlinks a:focus-visible{color:var(--paper);}
+  .nav-cta{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; font-weight:600;
+    background:var(--signal); color:var(--ink); padding:9px 16px; border-radius:4px;
+    letter-spacing:0.02em;
+  }
+  .nav-cta:hover{filter:brightness(1.08);}
+  .burger{display:none; background:none; border:0; color:var(--paper); font-size:22px; cursor:pointer;}
+
+  @media (max-width: 760px){
+    .navlinks{display:none;}
+    .burger{display:block;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:88px 0 70px;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(circle at 85% 0%, rgba(94,217,160,0.10), transparent 45%),
+      var(--ink);
+  }
+  .hero-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:50px; align-items:center;}
+  @media (max-width:900px){.hero-grid{grid-template-columns:1fr; gap:48px;}}
+
+  .ticket-label{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:0.14em;
+    color:var(--signal); border:1px solid rgba(94,217,160,0.35); border-radius:4px;
+    padding:6px 10px; margin-bottom:24px; text-transform:uppercase;
+  }
+  .ticket-label .blink{width:6px;height:6px;border-radius:50%;background:var(--signal); animation:blink 1.6s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.25;}}
+
+  .hero h1{
+    font-size:clamp(36px, 5vw, 58px);
+    line-height:1.05;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin-bottom:22px;
+  }
+  .hero h1 .accent{color:var(--signal);}
+
+  .hero p.lede{
+    font-size:17px; line-height:1.65; color:var(--paper-dim); max-width:480px; margin-bottom:34px;
+  }
+
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:40px;}
+  .btn{
+    font-family:'JetBrains Mono',monospace; font-weight:600; font-size:13.5px;
+    padding:14px 22px; border-radius:5px; letter-spacing:0.01em;
+    display:inline-flex; align-items:center; gap:8px; transition:transform .15s, filter .15s;
+  }
+  .btn-primary{background:var(--signal); color:var(--ink);}
+  .btn-primary:hover{transform:translateY(-2px); filter:brightness(1.07);}
+  .btn-ghost{border:1px solid var(--line); color:var(--paper);}
+  .btn-ghost:hover{border-color:var(--paper-dim); transform:translateY(-2px);}
+
+  .hero-meta{display:flex; gap:36px; flex-wrap:wrap;}
+  .meta-item .num{font-family:'JetBrains Mono',monospace; font-size:22px; font-weight:700; color:var(--paper);}
+  .meta-item .lab{font-size:11.5px; color:var(--paper-dim); letter-spacing:0.04em; margin-top:2px;}
+
+  /* ---------- DIAGNOSTIC CARD (signature element) ---------- */
+  .diag-card{
+    position:relative;
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:26px;
+    overflow:hidden;
+  }
+  .diag-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:18px;}
+  .diag-head .ttl{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--paper-dim); text-transform:uppercase;}
+  .diag-head .id{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--paper-dim);}
+
+  .device-frame{
+    position:relative;
+    margin:0 auto 18px;
+    width:148px; height:280px;
+    border:2px solid rgba(237,234,227,0.22);
+    border-radius:22px;
+    background:linear-gradient(180deg, rgba(94,217,160,0.05), transparent 40%);
+    overflow:hidden;
+  }
+  .device-notch{position:absolute; top:10px; left:50%; transform:translateX(-50%); width:38px; height:5px; border-radius:3px; background:rgba(237,234,227,0.18);}
+  .crack{
+    position:absolute; top:35%; left:18%; width:64%; height:30%;
+    opacity:0.55;
+  }
+  .scanline{
+    position:absolute; left:0; width:100%; height:2px;
+    background:linear-gradient(90deg, transparent, var(--signal) 50%, transparent);
+    box-shadow:0 0 12px var(--signal);
+    animation:scan 2.6s ease-in-out infinite;
+  }
+  @keyframes scan{
+    0%{top:6%; opacity:0;}
+    8%{opacity:1;}
+    50%{top:92%; opacity:1;}
+    58%{opacity:0;}
+    100%{top:6%; opacity:0;}
+  }
+
+  .diag-rows{display:flex; flex-direction:column; gap:9px; font-family:'JetBrains Mono',monospace; font-size:12px;}
+  .diag-row{display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px dashed var(--line);}
+  .diag-row:last-child{border-bottom:none;}
+  .diag-row .k{color:var(--paper-dim);}
+  .diag-row .v{color:var(--paper); font-weight:500;}
+  .v.ok{color:var(--signal);}
+  .v.warn{color:var(--amber);}
+
+  /* ---------- SECTION SCAFFOLDING ---------- */
+  section{padding:84px 0;}
+  .sec-head{margin-bottom:48px; max-width:620px;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:0.16em;
+    color:var(--signal); text-transform:uppercase; margin-bottom:12px; display:block;
+  }
+  .sec-head h2{font-size:clamp(26px,3.4vw,38px); font-weight:700; line-height:1.18; margin-bottom:14px;}
+  .sec-head p{color:var(--paper-dim); font-size:15.5px; line-height:1.6;}
+
+  /* ---------- PRODUCTS ---------- */
+  .product-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  @media (max-width:900px){.product-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:600px){.product-grid{grid-template-columns:1fr;}}
+
+  .product-card{
+    background:var(--ink-2); border:1px solid var(--line); border-radius:10px;
+    padding:24px; transition:border-color .2s, transform .2s;
+  }
+  .product-card:hover{border-color:rgba(94,217,160,0.4); transform:translateY(-3px);}
+  .pc-top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;}
+  .pc-tag{font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--paper-dim); border:1px solid var(--line); padding:3px 8px; border-radius:3px; letter-spacing:0.06em;}
+  .pc-icon{font-size:26px; line-height:1;}
+  .product-card h3{font-size:18px; font-weight:600; margin-bottom:8px;}
+  .product-card p{font-size:14px; color:var(--paper-dim); line-height:1.55; margin-bottom:16px;}
+  .pc-price{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--signal); font-weight:600;}
+
+  /* ---------- REPAIR TICKET SERVICES ---------- */
+  .services{background:var(--ink-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .ticket-list{display:flex; flex-direction:column; border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  .ticket-row{
+    display:grid; grid-template-columns:64px 1fr auto auto;
+    align-items:center; gap:18px; padding:20px 22px;
+    border-bottom:1px solid var(--line);
+    transition:background .2s;
+  }
+  .ticket-row:last-child{border-bottom:none;}
+  .ticket-row:hover{background:rgba(237,234,227,0.03);}
+  .tr-id{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--paper-dim);}
+  .tr-main h4{font-size:16.5px; font-weight:600; margin-bottom:4px;}
+  .tr-main p{font-size:13.5px; color:var(--paper-dim);}
+  .tr-time{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--paper-dim); white-space:nowrap;}
+  .tr-status{
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em;
+    padding:5px 10px; border-radius:4px; white-space:nowrap; text-transform:uppercase;
+  }
+  .tr-status.fixed{background:rgba(94,217,160,0.12); color:var(--signal);}
+  .tr-status.fast{background:rgba(255,182,72,0.12); color:var(--amber);}
+
+  @media (max-width:680px){
+    .ticket-row{grid-template-columns:1fr; gap:6px;}
+    .tr-id{order:-1;}
+  }
+
+  /* ---------- PROCESS ---------- */
+  .process-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  @media (max-width:900px){.process-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:540px){.process-grid{grid-template-columns:1fr;}}
+  .process-step{background:var(--ink); padding:28px 24px;}
+  .process-step .pn{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--signal); margin-bottom:14px;}
+  .process-step h4{font-size:16px; font-weight:600; margin-bottom:8px;}
+  .process-step p{font-size:13.5px; color:var(--paper-dim); line-height:1.55;}
+
+  /* ---------- TRUST / STATS ---------- */
+  .trust-strip{display:flex; justify-content:space-between; flex-wrap:wrap; gap:28px; padding:36px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .trust-item{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--paper-dim); display:flex; align-items:center; gap:8px;}
+  .trust-item .sig{color:var(--signal);}
+
+  /* ---------- CONTACT / CTA ---------- */
+  .cta-section{text-align:center; padding:100px 0;}
+  .cta-section .eyebrow{display:inline-block;}
+  .cta-section h2{font-size:clamp(28px,4vw,44px); font-weight:700; margin-bottom:16px; max-width:640px; margin-left:auto; margin-right:auto;}
+  .cta-section p{color:var(--paper-dim); font-size:16px; max-width:480px; margin:0 auto 36px;}
+  .cta-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:50px;}
+  @media (max-width:760px){.contact-grid{grid-template-columns:1fr;}}
+  .contact-card{background:var(--ink-2); border:1px solid var(--line); border-radius:10px; padding:28px;}
+  .contact-card .ttl{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:var(--paper-dim); text-transform:uppercase; margin-bottom:14px;}
+  .contact-line{display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px dashed var(--line); font-size:14.5px;}
+  .contact-line:last-child{border-bottom:none;}
+  .contact-line .k{color:var(--paper-dim);}
+  .contact-line .v{font-weight:500; text-align:right;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line); padding:36px 0;}
+  .foot-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+  .foot-row .mono{font-size:12px; color:var(--paper-dim);}
+
+  ::selection{background:var(--signal); color:var(--ink);}
+
+  button:focus-visible, a:focus-visible{outline:2px solid var(--signal); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap" style="padding:18px 0;">
+    <div class="logo">
+      <span class="dot"></span>
+      BISK EMPIRE ENTERPRISE
+      <span class="tag">PHONES · TABLETS · REPAIRS</span>
+    </div>
+    <div class="navlinks">
+      <a href="#shop">Shop</a>
+      <a href="#repairs">Repairs</a>
+      <a href="#process">How it works</a>
+      <a href="#contact">Visit us</a>
+    </div>
+    <a href="#contact" class="nav-cta">BOOK A REPAIR</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="ticket-label"><span class="blink"></span> WORKSHOP STATUS: OPEN NOW</div>
+      <h1>Your phone breaks.<br>We <span class="accent">fix it</span> — or sell you a better one.</h1>
+      <p class="lede">BISK EMPIRE ENTERPRISE is your one-stop counter for new &amp; trade-in phones, tablets, and same-day repairs. Cracked screen, dead battery, water damage — bring it in, we diagnose it free.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Book a repair →</a>
+        <a href="#shop" class="btn btn-ghost">Browse devices</a>
+      </div>
+      <div class="hero-meta">
+        <div class="meta-item"><div class="num">30min</div><div class="lab">avg. screen swap</div></div>
+        <div class="meta-item"><div class="num">90day</div><div class="lab">repair warranty</div></div>
+        <div class="meta-item"><div class="num">1,200+</div><div class="lab">devices fixed</div></div>
+      </div>
+    </div>
+
+    <div class="diag-card">
+      <div class="diag-head">
+        <span class="ttl">Diagnostic readout</span>
+        <span class="id">#BE-0417</span>
+      </div>
+
+      <div class="device-frame">
+        <div class="device-notch"></div>
+        <svg class="crack" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 5 L42 28 L30 30 L55 50 L48 45 L70 58 L60 40 L80 45 L52 22 L65 18 L38 10 Z"
+                fill="none" stroke="#EDEAE3" stroke-width="1" stroke-opacity="0.5"/>
+        </svg>
+        <div class="scanline"></div>
+      </div>
+
+      <div class="diag-rows">
+        <div class="diag-row"><span class="k">Screen</span><span class="v warn">Cracked — replace</span></div>
+        <div class="diag-row"><span class="k">Battery health</span><span class="v ok">87% — good</span></div>
+        <div class="diag-row"><span class="k">Charging port</span><span class="v ok">OK</span></div>
+        <div class="diag-row"><span class="k">Est. repair time</span><span class="v">35 min</span></div>
+        <div class="diag-row"><span class="k">Est. cost</span><span class="v ok">From RM89</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="trust-strip">
+    <div class="trust-item"><span class="sig">●</span> Genuine &amp; OEM parts only</div>
+    <div class="trust-item"><span class="sig">●</span> Free diagnostic, no obligation</div>
+    <div class="trust-item"><span class="sig">●</span> 90-day repair warranty</div>
+    <div class="trust-item"><span class="sig">●</span> Trade-ins welcome</div>
+  </div>
+</div>
+
+<section id="shop">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">In stock at the counter</span>
+      <h2>Phones &amp; tablets, new and trade-in</h2>
+      <p>Every device is tested on-site before it goes on the shelf. Ask us about trade-in value on your current phone.</p>
+    </div>
+
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="pc-top"><span class="pc-tag">NEW</span><span class="pc-icon">📱</span></div>
+        <h3>Flagship Smartphones</h3>
+        <p>Latest Android &amp; iOS flagships, sealed box, full manufacturer warranty.</p>
+        <div class="pc-price">From RM1,299</div>
+      </div>
+      <div class="product-card">
+        <div class="pc-top"><span class="pc-tag">VALUE</span><span class="pc-icon">📲</span></div>
+        <h3>Budget &amp; Mid-range Phones</h3>
+        <p>Reliable daily drivers for students and first-time buyers. Great battery, good cameras.</p>
+        <div class="pc-price">From RM449</div>
+      </div>
+      <div class="product-card">
+        <div class="pc-top"><span class="pc-tag">CERTIFIED</span><span class="pc-icon">♻️</span></div>
+        <h3>Trade-in / Pre-owned</h3>
+        <p>Inspected, tested, and graded. Each comes with a 30-day usage warranty.</p>
+        <div class="pc-price">From RM299</div>
+      </div>
+      <div class="product-card">
+        <div class="pc-top"><span class="pc-tag">NEW</span><span class="pc-icon">📟</span></div>
+        <h3>Tablets</h3>
+        <p>For work, school, or streaming. Wi-Fi and cellular models in stock.</p>
+        <div class="pc-price">From RM699</div>
+      </div>
+      <div class="product-card">
+        <div class="pc-top"><span class="pc-tag">PARTS</span><span class="pc-icon">🔋</span></div>
+        <h3>Batteries &amp; Chargers</h3>
+        <p>Original-spec batteries, cables, and fast chargers for all major brands.</p>
+        <div class="pc-price">From RM39</div>
+      </div>
+      <div class="product-card">
+        <div class="pc-top"><span class="pc-tag">PARTS</span><span class="pc-icon">🖥️</span></div>
+        <h3>Screens &amp; Cases</h3>
+        <p>Replacement displays, tempered glass, and protective cases — fitted while you wait.</p>
+        <div class="pc-price">From RM25</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="repairs" class="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The repair counter</span>
+      <h2>Common jobs, straight pricing</h2>
+      <p>Walk in or book ahead. Most jobs are done same-day while you browse or grab a coffee next door.</p>
+    </div>
+
+    <div class="ticket-list">
+      <div class="ticket-row">
+        <span class="tr-id mono">#01</span>
+        <div class="tr-main"><h4>Screen replacement</h4><p>Cracked glass or dead display, all major brands</p></div>
+        <span class="tr-time">~30–45 min</span>
+        <span class="tr-status fast">SAME DAY</span>
+      </div>
+      <div class="ticket-row">
+        <span class="tr-id mono">#02</span>
+        <div class="tr-main"><h4>Battery replacement</h4><p>Phone dying fast or swelling? Swap it out</p></div>
+        <span class="tr-time">~20 min</span>
+        <span class="tr-status fixed">WHILE YOU WAIT</span>
+      </div>
+      <div class="ticket-row">
+        <span class="tr-id mono">#03</span>
+        <div class="tr-main"><h4>Charging port repair</h4><p>Loose connection, won't charge, port cleaning</p></div>
+        <span class="tr-time">~30 min</span>
+        <span class="tr-status fast">SAME DAY</span>
+      </div>
+      <div class="ticket-row">
+        <span class="tr-id mono">#04</span>
+        <div class="tr-main"><h4>Water damage recovery</h4><p>Diagnostic, cleaning, and component-level repair</p></div>
+        <span class="tr-time">24–48 hrs</span>
+        <span class="tr-status fixed">FREE DIAGNOSIS</span>
+      </div>
+      <div class="ticket-row">
+        <span class="tr-id mono">#05</span>
+        <div class="tr-main"><h4>Camera &amp; speaker repair</h4><p>Blurry shots, cracked lens, muffled or no sound</p></div>
+        <span class="tr-time">~40 min</span>
+        <span class="tr-status fast">SAME DAY</span>
+      </div>
+      <div class="ticket-row">
+        <span class="tr-id mono">#06</span>
+        <div class="tr-main"><h4>Software &amp; data recovery</h4><p>Boot loops, frozen systems, retrieving lost photos &amp; files</p></div>
+        <span class="tr-time">Varies</span>
+        <span class="tr-status fixed">FREE DIAGNOSIS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">How it works</span>
+      <h2>From cracked to collected</h2>
+      <p>No appointment needed for most repairs — just bring the device in.</p>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="pn mono">STEP 01</div>
+        <h4>Bring it in</h4>
+        <p>Drop your phone or tablet at the counter, no appointment needed for most jobs.</p>
+      </div>
+      <div class="process-step">
+        <div class="pn mono">STEP 02</div>
+        <h4>Free diagnosis</h4>
+        <p>We check the device on the spot and tell you exactly what's wrong and what it costs.</p>
+      </div>
+      <div class="process-step">
+        <div class="pn mono">STEP 03</div>
+        <h4>We fix it</h4>
+        <p>Most repairs are done same-day with genuine or OEM-grade parts.</p>
+      </div>
+      <div class="process-step">
+        <div class="pn mono">STEP 04</div>
+        <h4>Collect &amp; go</h4>
+        <p>Walk out with a working device and a 90-day warranty on the repair.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="get-quote">
+  <div class="wrap">
+    <span class="eyebrow">Got a broken device right now?</span>
+    <h2>Bring it in for a free diagnosis — no obligation, no guesswork.</h2>
+    <p>Most repairs are quoted on the spot and finished the same day.</p>
+    <div class="cta-row">
+      <a href="#contact" class="btn btn-primary">Visit the workshop →</a>
+      <a href="tel:+60189075127" class="btn btn-ghost">Call us now</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="padding-top:0;">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Find us</span>
+      <h2>Visit the counter</h2>
+      <p>Drop in during opening hours, or call ahead to check stock or book a repair slot.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="ttl">Contact</div>
+        <div class="contact-line"><span class="k">Phone</span><span class="v">+60 18-907 5127</span></div>
+        <div class="contact-line"><span class="k">WhatsApp</span><span class="v">+60 16-524 2152</span></div>
+        <div class="contact-line"><span class="k">Email</span><span class="v">gadgets@biskempire.com</span></div>
+        <div class="contact-line"><span class="k">Address</span><span class="v">10367, Kampung Bukit Berangan, Tepoh,<br>21060 Kuala Nerus, Terengganu</span></div>
+      </div>
+      <div class="contact-card">
+        <div class="ttl">Opening hours</div>
+        <div class="contact-line"><span class="k">Monday – Friday</span><span class="v">10:00 – 19:30</span></div>
+        <div class="contact-line"><span class="k">Saturday</span><span class="v">10:00 – 18:00</span></div>
+        <div class="contact-line"><span class="k">Sunday</span><span class="v">12:00 – 17:00</span></div>
+        <div class="contact-line"><span class="k">Public holidays</span><span class="v">Closed</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <div class="logo" style="font-size:14px;"><span class="dot"></span> BISK EMPIRE ENTERPRISE</div>
+    <span class="mono">© 2026 Bisk Empire Enterprise. All devices fixed with care.</span>
+  </div>
+</footer>
+
+</body>
+</html>
